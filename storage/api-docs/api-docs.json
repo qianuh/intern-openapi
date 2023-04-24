@@ -1,0 +1,532 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Laravel OpenApi Demo Documentation",
+        "description": "L5 Swagger OpenApi description 中文測試",
+        "contact": {
+            "email": "admin@admin.com"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        },
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://hello.org/api",
+            "description": "23 測試機"
+        }
+    ],
+    "paths": {
+        "/api": {},
+        "/auth/signup": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "補充",
+                "description": "建立User",
+                "operationId": "auth/signup",
+                "requestBody": {
+                    "content": {
+                        "multipart/form/data": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "description": "user name",
+                                        "type": "string"
+                                    },
+                                    "email": {
+                                        "description": "user email",
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "description": "password",
+                                        "type": "string"
+                                    },
+                                    "password_confirmation": {
+                                        "description": "confirm password",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "201": {
+                        "description": "Unauthenticated"
+                    }
+                }
+            }
+        },
+        "/auth/login": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "auth login",
+                "description": "user login",
+                "operationId": "auth/login",
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "email": {
+                                        "description": "user email",
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "description": "password",
+                                        "type": "string"
+                                    },
+                                    "type": {
+                                        "description": "login type: base|ldap",
+                                        "type": "string",
+                                        "default": "base"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    }
+                }
+            }
+        },
+        "/auth/logout": {
+            "get": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "logout user token",
+                "description": "user logout",
+                "operationId": "auth/logout",
+                "responses": {
+                    "200": {
+                        "description": "Successfully logged out",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "examples": {
+                                    "message": {
+                                        "summary": "Successfully logged out",
+                                        "value": "Successfully logged out"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "examples": {
+                                    "message": {
+                                        "summary": "logout fail",
+                                        "value": "Unauthenticated"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/auth/whoami": {
+            "get": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "get token info",
+                "description": "get token info",
+                "operationId": "auth/whoami",
+                "responses": {
+                    "200": {
+                        "description": "token user info",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "examples": {
+                                    "message": {
+                                        "summary": "need modify...",
+                                        "value": "modify ..."
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "examples": {
+                                    "message": {
+                                        "summary": "logout fail",
+                                        "value": "Unauthenticated"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/group": {
+            "get": {
+                "tags": [
+                    "Group"
+                ],
+                "summary": "get groups",
+                "description": "get groups",
+                "operationId": "getGroups",
+                "responses": {
+                    "200": {
+                        "description": "success get on webform"
+                    },
+                    "403": {
+                        "description": "Unauthenticated"
+                    },
+                    "404": {
+                        "description": "Account no permission"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Group"
+                ],
+                "summary": "create group",
+                "description": "Returns list of webform",
+                "operationId": "postGroup",
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "name",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "note",
+                        "in": "query",
+                        "description": "note",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "403": {
+                        "description": "Unauthenticated"
+                    },
+                    "404": {
+                        "description": "Role already exist"
+                    },
+                    "422": {
+                        "description": "Parameter validation failed"
+                    },
+                    "500": {
+                        "description": "SQL Execution Error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/group/{id}": {
+            "get": {
+                "tags": [
+                    "Group"
+                ],
+                "summary": "get group id",
+                "description": "get group id",
+                "operationId": "getGroupId",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "specific webform id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success get on webform"
+                    },
+                    "403": {
+                        "description": "Unauthenticated"
+                    },
+                    "404": {
+                        "description": "Account no permission"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Group"
+                ],
+                "summary": "delete group",
+                "description": "delete group",
+                "operationId": "DeleteGroup",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "DeleteId",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "403": {
+                        "description": "Unauthenticated"
+                    },
+                    "404": {
+                        "description": "Role ID not specified or invalid format"
+                    },
+                    "500": {
+                        "description": "SQL Execution Error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "patch": {
+                "tags": [
+                    "Group"
+                ],
+                "summary": "update group",
+                "description": "update group",
+                "operationId": "patchGroup",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "UpdateId",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "name",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "note",
+                        "in": "query",
+                        "description": "note",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "403": {
+                        "description": "Unauthenticated"
+                    },
+                    "404": {
+                        "description": "Role ID not specified or invalid format"
+                    },
+                    "405": {
+                        "description": "Specified role ID does not exist"
+                    },
+                    "422": {
+                        "description": "Parameter validation failed"
+                    },
+                    "500": {
+                        "description": "SQL Execution Error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/Info": {
+            "get": {
+                "tags": [
+                    "Info"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "yo"
+                    }
+                }
+            }
+        },
+        "/user": {
+            "get": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Get list of user",
+                "description": "Returns list of user",
+                "operationId": "/user",
+                "parameters": [
+                    {
+                        "name": "offset",
+                        "in": "query",
+                        "description": "offset",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "limit",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/user/{id}": {
+            "get": {
+                "tags": [
+                    "User"
+                ],
+                "operationId": "/user/{id}",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "specific user id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success get on user"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "name": "Token auth",
+                "in": "header",
+                "bearerFormat": "JWT",
+                "scheme": "bearer"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Auth",
+            "description": "User auth apis"
+        },
+        {
+            "name": "Group",
+            "description": "User群組相關操作"
+        },
+        {
+            "name": "Info",
+            "description": "helloworold"
+        },
+        {
+            "name": "Task",
+            "description": "webform 表單"
+        },
+        {
+            "name": "User",
+            "description": "user相關操作"
+        },
+        {
+            "name": "Test",
+            "description": "hello"
+        }
+    ]
+}
