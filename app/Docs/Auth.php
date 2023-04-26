@@ -13,35 +13,33 @@ PATH: POST /signup
 	@OA\Post(
 		path="/auth/signup",
 		tags={"Auth"},
-		summary="補充",
-		description="建立User",
+		summary="註冊",
+		description="建立User(權限為root)",
 		operationId="auth/signup",
 		@OA\RequestBody(
-                        @OA\MediaType(
-                                mediaType="multipart/form/data",
-                                @OA\Schema(
-                                        @OA\Property(
-                                                property="name",
-                                                type="string",
-                                                description="user name",
-                                        ),
-                                        @OA\Property(
-                                                property="email",
-                                                type="string",
-                                                description="user email",
-                                        ),
-                                        @OA\Property(
-                                                property="password",
-                                                type="string",
-                                                description="password",
-                                        ),
-                                        @OA\Property(
-                                                property="password_confirmation",
-                                                type="string",
-                                                description="confirm password",
-                                        ),
-                                )
-                        )
+                        @OA\JsonContent(
+				@OA\Property(
+					property="name",
+					type="string",
+					description="user name",
+				),
+				@OA\Property(
+					property="email",
+					type="string",
+					description="user email",
+				),
+				@OA\Property(
+					property="password",
+					type="string",
+					description="password",
+				),
+				@OA\Property(
+					property="password_confirmation",
+					type="string",
+					description="confirm password",
+				),		
+			
+			),
                 ),
                 @OA\Response(
                         response=200,
@@ -60,12 +58,10 @@ PATH: POST /auth/login
 		path="/auth/login",
 		operationId="auth/login",
 		tags={"Auth"},
-		summary="auth login",
-		description="user login",
+		summary="登入",
+		description="登入user",
 		@OA\RequestBody(
-			@OA\MediaType(
-				mediaType="multipart/form-data",
-				@OA\Schema(
+			@OA\JsonContent(
 					@OA\Property(
 						property="email",
 						type="string",
@@ -82,7 +78,7 @@ PATH: POST /auth/login
 						default="base",
 						description="login type: base|ldap",
 					)
-				)
+			
 			)
 		),
 		
@@ -102,8 +98,8 @@ PATH: GET /auth/logout
         path="/auth/logout",
         operationId="auth/logout",
         tags={"Auth"},
-        summary="logout user token",
-        description="user logout",
+        summary="登出",
+        description="登出user",
         @OA\Response(
             response=200,
             description="Successfully logged out",
@@ -138,8 +134,8 @@ PATH: GET /auth/whoami
         path="/auth/whoami",
         operationId="auth/whoami",
         tags={"Auth"},
-        summary="get token info",
-        description="get token info",
+        summary="查詢user相關資料",
+        description="可以得到user基本資料，所屬group等...",
         @OA\Response(
             response=200,
             description="token user info",

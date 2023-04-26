@@ -14,7 +14,7 @@
     },
     "servers": [
         {
-            "url": "http://hello.org/api",
+            "url": "http://23.pm.m2k.openfind.com.tw:8080/api",
             "description": "23 測試機"
         }
     ],
@@ -25,12 +25,12 @@
                 "tags": [
                     "Auth"
                 ],
-                "summary": "補充",
-                "description": "建立User",
+                "summary": "註冊",
+                "description": "建立User(權限為root)",
                 "operationId": "auth/signup",
                 "requestBody": {
                     "content": {
-                        "multipart/form/data": {
+                        "application/json": {
                             "schema": {
                                 "properties": {
                                     "name": {
@@ -70,12 +70,12 @@
                 "tags": [
                     "Auth"
                 ],
-                "summary": "auth login",
-                "description": "user login",
+                "summary": "登入",
+                "description": "登入user",
                 "operationId": "auth/login",
                 "requestBody": {
                     "content": {
-                        "multipart/form-data": {
+                        "application/json": {
                             "schema": {
                                 "properties": {
                                     "email": {
@@ -112,8 +112,8 @@
                 "tags": [
                     "Auth"
                 ],
-                "summary": "logout user token",
-                "description": "user logout",
+                "summary": "登出",
+                "description": "登出user",
                 "operationId": "auth/logout",
                 "responses": {
                     "200": {
@@ -152,8 +152,8 @@
                 "tags": [
                     "Auth"
                 ],
-                "summary": "get token info",
-                "description": "get token info",
+                "summary": "查詢user相關資料",
+                "description": "可以得到user基本資料，所屬group等...",
                 "operationId": "auth/whoami",
                 "responses": {
                     "200": {
