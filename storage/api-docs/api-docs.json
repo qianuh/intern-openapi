@@ -197,18 +197,24 @@
                 "tags": [
                     "Group"
                 ],
-                "summary": "get groups",
-                "description": "get groups",
+                "summary": "獲得群組資料",
+                "description": "得到所屬權限的Group資料(root可查看所有group)",
                 "operationId": "getGroups",
                 "responses": {
                     "200": {
                         "description": "success get on webform"
                     },
-                    "403": {
+                    "401": {
                         "description": "Unauthenticated"
                     },
                     "404": {
-                        "description": "Account no permission"
+                        "description": "Specified ID does not exist"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "422": {
+                        "description": "Invalid ID type"
                     }
                 },
                 "security": [
@@ -221,8 +227,8 @@
                 "tags": [
                     "Group"
                 ],
-                "summary": "create group",
-                "description": "Returns list of webform",
+                "summary": "新增group",
+                "description": "創立新的group(note可為空)",
                 "operationId": "postGroup",
                 "parameters": [
                     {
@@ -247,17 +253,14 @@
                     "200": {
                         "description": "Successful operation"
                     },
-                    "403": {
+                    "401": {
                         "description": "Unauthenticated"
                     },
-                    "404": {
-                        "description": "Role already exist"
+                    "403": {
+                        "description": "Forbidden"
                     },
                     "422": {
                         "description": "Parameter validation failed"
-                    },
-                    "500": {
-                        "description": "SQL Execution Error"
                     }
                 },
                 "security": [
@@ -272,8 +275,8 @@
                 "tags": [
                     "Group"
                 ],
-                "summary": "get group id",
-                "description": "get group id",
+                "summary": "獲得指定group資料",
+                "description": "輸入id 獲得特定id group資料 (id限int)",
                 "operationId": "getGroupId",
                 "parameters": [
                     {
@@ -290,11 +293,17 @@
                     "200": {
                         "description": "success get on webform"
                     },
-                    "403": {
+                    "401": {
                         "description": "Unauthenticated"
                     },
                     "404": {
-                        "description": "Account no permission"
+                        "description": "Specified ID does not exist"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "422": {
+                        "description": "Invalid ID type"
                     }
                 },
                 "security": [
@@ -307,8 +316,8 @@
                 "tags": [
                     "Group"
                 ],
-                "summary": "delete group",
-                "description": "delete group",
+                "summary": "刪除group",
+                "description": "刪除指定group(group必須沒有成員)",
                 "operationId": "DeleteGroup",
                 "parameters": [
                     {
@@ -325,11 +334,14 @@
                     "200": {
                         "description": "Successful operation"
                     },
-                    "403": {
+                    "401": {
                         "description": "Unauthenticated"
                     },
+                    "403": {
+                        "description": "Forbidden"
+                    },
                     "404": {
-                        "description": "Role ID not specified or invalid format"
+                        "description": "Parameter does not exist or already exists."
                     },
                     "500": {
                         "description": "SQL Execution Error"
@@ -345,14 +357,14 @@
                 "tags": [
                     "Group"
                 ],
-                "summary": "update group",
-                "description": "update group",
+                "summary": "修改 group",
+                "description": "修改group資料",
                 "operationId": "patchGroup",
                 "parameters": [
                     {
                         "name": "id",
                         "in": "path",
-                        "description": "UpdateId",
+                        "description": "欲修改的group id",
                         "required": true,
                         "schema": {
                             "type": "integer"
@@ -380,20 +392,17 @@
                     "200": {
                         "description": "Successful operation"
                     },
-                    "403": {
+                    "401": {
                         "description": "Unauthenticated"
                     },
-                    "404": {
-                        "description": "Role ID not specified or invalid format"
+                    "403": {
+                        "description": "Forbidden"
                     },
-                    "405": {
-                        "description": "Specified role ID does not exist"
+                    "404": {
+                        "description": "Parameter does not exist or already exists."
                     },
                     "422": {
                         "description": "Parameter validation failed"
-                    },
-                    "500": {
-                        "description": "SQL Execution Error"
                     }
                 },
                 "security": [
@@ -506,7 +515,7 @@
     "tags": [
         {
             "name": "Auth",
-            "description": "User auth apis"
+            "description": "權限相關"
         },
         {
             "name": "Group",

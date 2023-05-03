@@ -6,7 +6,7 @@ namespace App\Docs;
 
 	@OA\Tag(
 		name="Auth",
-		description="User auth apis"
+		description="權限相關"
 	)
 
 PATH: POST /signup

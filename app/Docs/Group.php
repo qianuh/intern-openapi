@@ -13,20 +13,30 @@ PATH: GET /group
         path="/group",
         operationId="getGroups",
         tags={"Group"},
-        summary="get groups",
-        description="get groups",
+        summary="獲得群組資料",
+	description="得到所屬權限的Group資料(root可查看所有group)",
         security={{"bearerAuth":{}}},
         @OA\Response(
             response=200,
             description="success get on webform",
         ),
         @OA\Response(
-            response=403,
+            response=401,
             description="Unauthenticated"
         ),
         @OA\Response(
             response=404,
-            description="Account no permission"
+            description="Specified ID does not exist"
+        ),
+        @OA\Response(
+            response=403,
+            description="Forbidden"
+
+        ),
+        @OA\Response(
+            response=422,
+            description="Invalid ID type"
+
         )
     )
 
@@ -36,8 +46,8 @@ PATH: GET /group/{id}
         path="/group/{id}",
         operationId="getGroupId",
         tags={"Group"},
-        summary="get group id",
-        description="get group id",
+        summary="獲得指定group資料",
+        description="輸入id 獲得特定id group資料 (id限int)",
         security={{"bearerAuth":{}}},
         @OA\Parameter(
             name="id",
@@ -51,12 +61,22 @@ PATH: GET /group/{id}
             description="success get on webform",
         ),
         @OA\Response(
-            response=403,
+            response=401,
             description="Unauthenticated"
         ),
         @OA\Response(
             response=404,
-            description="Account no permission"
+            description="Specified ID does not exist"
+        ),
+        @OA\Response(
+            response=403,
+            description="Forbidden"
+
+        ),
+        @OA\Response(
+            response=422,
+            description="Invalid ID type"
+
         )
     )
 
@@ -66,9 +86,9 @@ PATH: POST /group
         path="/group",
         operationId="postGroup",
         tags={"Group"},
-        summary="create group",
-        description="Returns list of webform",
-        security={{"bearerAuth":{}}},
+        summary="新增group",
+        description="創立新的group(note可為空)",
+	security={{"bearerAuth":{}}},
         @OA\Parameter(
             name="name",
             description="name",
@@ -87,21 +107,18 @@ PATH: POST /group
             description="Successful operation",
         ),
         @OA\Response(
-            response=403,
+            response=401,
             description="Unauthenticated",
-        ),
-        @OA\Response(
-            response=404,
-            description="Role already exist",
-        ),        
+    	),
+	 @OA\Response(
+            response=403,
+            description="Forbidden",
+        ),      
         @OA\Response(
             response=422,
             description="Parameter validation failed",
         ),               
-        @OA\Response(
-            response=500,
-            description="SQL Execution Error",
-        )
+        
     )
 
 PATH: PATCH /group/{id}
@@ -109,12 +126,12 @@ PATH: PATCH /group/{id}
         path="/group/{id}",
         operationId="patchGroup",
         tags={"Group"},
-        summary="update group",
-        description="update group",
+        summary="修改 group",
+        description="修改group資料",
         security={{"bearerAuth":{}}},
         @OA\Parameter(
             name="id",
-            description="UpdateId",
+            description="欲修改的group id",
             required=true,
             in="path",
             @OA\Schema(type="integer")
@@ -135,26 +152,22 @@ PATH: PATCH /group/{id}
         @OA\Response(
             response=200,
             description="Successful operation",
-        ),
-        @OA\Response(
-            response=403,
+   	 ),
+	 @OA\Response(
+            response=401,
             description="Unauthenticated",
         ),
         @OA\Response(
-            response=404,
-            description="Role ID not specified or invalid format",
+            response=403,
+            description="Forbidden",
         ),
         @OA\Response(
-            response=405,
-            description="Specified role ID does not exist",
+            response=404,
+            description="Parameter does not exist or already exists.",
         ),
         @OA\Response(
             response=422,
             description="Parameter validation failed",
-        ),
-        @OA\Response(
-            response=500,
-            description="SQL Execution Error",
         )
     )
 
@@ -164,8 +177,8 @@ PATH: DELETE /group/{id}
         path="/group/{id}",
         operationId="DeleteGroup",
         tags={"Group"},
-        summary="delete group",
-        description="delete group",
+        summary="刪除group",
+	description="刪除指定group(group必須沒有成員)",
         security={{"bearerAuth":{}}},
         @OA\Parameter(
             name="id",
@@ -177,14 +190,18 @@ PATH: DELETE /group/{id}
         @OA\Response(
             response=200,
             description="Successful operation",
-        ),
-        @OA\Response(
-            response=403,
+   	),
+	 @OA\Response(
+            response=401,
             description="Unauthenticated",
         ),
         @OA\Response(
+            response=403,
+            description="Forbidden",
+        ),
+        @OA\Response(
             response=404,
-            description="Role ID not specified or invalid format",
+            description="Parameter does not exist or already exists.",
         ),
         @OA\Response(
             response=500,
